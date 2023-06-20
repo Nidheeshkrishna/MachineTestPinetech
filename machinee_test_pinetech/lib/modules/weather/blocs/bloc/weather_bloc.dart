@@ -18,8 +18,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       if (event is _FetchWeather) {
         emit(const WeatherLoading());
         try {
-          weather = await WeatherRepository()
-              .getWeather(event.cityName ?? getLocationName());
+          weather = await WeatherRepository().getWeather(event.cityName);
           emit(WeatherLoaded(weather));
         } catch (e) {
           emit(const WeatherError('Failed to fetch weather.'));

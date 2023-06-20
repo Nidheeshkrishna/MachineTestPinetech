@@ -52,10 +52,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   Widget build(BuildContext context) {
     final WeatherBloc weatherBloc = BlocProvider.of<WeatherBloc>(context);
-    if (_cityController.text.isEmpty) {
-      weatherBloc
-          .add(WeatherEvent.FetchWeather(cityName: _cityController.text));
-    }
+
     return SafeArea(
         child: Scaffold(
             backgroundColor: const Color.fromARGB(180, 69, 255, 218),
@@ -174,11 +171,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
     String currentLocation = placemark.locality ?? '';
     setState(() {
       _cityController.text = currentLocation;
-      if(_cityController.text.isEmpty){
- weatherBlocNew
-          .add(WeatherEvent.FetchWeather(cityName: _cityController.value.text));
+      if (_cityController.text.isEmpty) {
+        weatherBlocNew.add(
+            WeatherEvent.FetchWeather(cityName: _cityController.value.text));
       }
-     
     });
   }
 
