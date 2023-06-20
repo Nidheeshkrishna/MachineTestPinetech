@@ -47,6 +47,8 @@ class WeatherScreen extends StatefulWidget {
 class _WeatherScreenState extends State<WeatherScreen> {
   final TextEditingController _cityController = TextEditingController();
 
+  late WeatherBloc weatherBlocNew;
+
   @override
   Widget build(BuildContext context) {
     final WeatherBloc weatherBloc = BlocProvider.of<WeatherBloc>(context);
@@ -91,7 +93,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         builder: (context, state) {
                       return state.when(
                           error: (message) =>
-                              const SizedBox(child: Text("error")),
+                              const SizedBox(child: Text("error123")),
                           initial: () {
                             return const SizedBox();
                           },
@@ -169,9 +171,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
     );
 
     Placemark placemark = placemarks.first;
-    String currentLocation = placemark.name ?? '';
+    String currentLocation = placemark.locality ?? '';
     setState(() {
       _cityController.text = currentLocation;
+      if(_cityController.text.isEmpty){
+ weatherBlocNew
+          .add(WeatherEvent.FetchWeather(cityName: _cityController.value.text));
+      }
+     
     });
   }
 
@@ -179,7 +186,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
   void initState() {
     checkPermissions();
     getLocationName();
-
     super.initState();
   }
 }
